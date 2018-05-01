@@ -1,0 +1,27 @@
+Vivado Simulator 2017.4
+Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
+Running: /opt/Xilinx/Vivado/2017.4/bin/unwrapped/lnx64.o/xelab -wto efc2c99016e441bcb2902ce942b994a2 --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot axi_spi_test_behav xil_defaultlib.axi_spi_test xil_defaultlib.glbl -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+WARNING: [VRFC 10-277] actual bit length 32 differs from formal bit length 1 [/home/marcell/Desktop/eeprom/25AA010A.v:437]
+WARNING: [VRFC 10-277] actual bit length 32 differs from formal bit length 1 [/home/marcell/Desktop/eeprom/25AA010A.v:438]
+WARNING: [VRFC 10-277] actual bit length 32 differs from formal bit length 1 [/home/marcell/Desktop/eeprom/25AA010A.v:439]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling package xil_defaultlib.spi_pkg
+Compiling package ieee.numeric_std
+Compiling package vl.vl_types
+Compiling module xil_defaultlib.glbl
+Compiling architecture behavioral of entity xil_defaultlib.timer [timer_default]
+Compiling architecture behavioral of entity xil_defaultlib.spi_if [spi_if_default]
+Compiling architecture behavioral of entity xil_defaultlib.spi_top [spi_top_default]
+Compiling architecture behavioral of entity xil_defaultlib.axi [axi_default]
+Compiling architecture behavioral of entity xil_defaultlib.axi_spi_top [axi_spi_top_default]
+Compiling module xil_defaultlib.M25AA010A
+Compiling architecture behavior of entity xil_defaultlib.axi_spi_test
+Built simulation snapshot axi_spi_test_behav

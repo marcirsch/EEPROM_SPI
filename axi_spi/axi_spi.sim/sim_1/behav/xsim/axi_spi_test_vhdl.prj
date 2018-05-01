@@ -1,0 +1,12 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../axi_spi.srcs/sources_1/imports/SRC/axi.vhd" \
+"../../../../axi_spi.srcs/sources_1/imports/SRC/axi_spi_top.vhd" \
+"../../../../axi_spi.srcs/sources_1/imports/SRC/spi_pkg.vhd" \
+"../../../../axi_spi.srcs/sources_1/imports/SRC/spi_if.vhd" \
+"../../../../axi_spi.srcs/sources_1/imports/SRC/timer.vhd" \
+"../../../../axi_spi.srcs/sources_1/imports/SRC/spi_top.vhd" \
+"../../../../axi_spi.srcs/sim_1/imports/SRC/axi_spi_sim.vhd" \
+
+# Do not sort compile order
+nosort
