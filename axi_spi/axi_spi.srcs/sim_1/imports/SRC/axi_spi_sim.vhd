@@ -1,30 +1,3 @@
---------------------------------------------------------------------------------
--- Company: 
--- Engineer:
---
--- Create Date:   18:38:34 05/08/2017
--- Design Name:   
--- Module Name:   D:/BME/MSC1/RA/HF/axi/axi_1/axi_spi_test.vhd
--- Project Name:  axi_1
--- Target Device:  
--- Tool versions:  
--- Description:   
--- 
--- VHDL Test Bench Created by ISE for module: axi_spi_top
--- 
--- Dependencies:
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
---
--- Notes: 
--- This testbench has been automatically generated using types std_logic and
--- std_logic_vector for the ports of the unit under test.  Xilinx recommends
--- that these types always be used for the top-level I/O of a design in order
--- to guarantee that the testbench will bind correctly to the post-implementation 
--- simulation model.
---------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
  
@@ -162,12 +135,12 @@ BEGIN
 		wait for CLK_period/2;
    end process;
    
-   proc_miso : process(SPI_SCK)
-   begin
-        if(rising_edge(SPI_SCK)) then
-            SPI_MISO <= not(SPI_MISO);
-        end if;
-   end process proc_miso;
+--   proc_miso : process(SPI_SCK)
+--   begin
+--        if(rising_edge(SPI_SCK)) then
+--            SPI_MISO <= not(SPI_MISO);
+--        end if;
+--   end process proc_miso;
    
    proc_axi_r_ready : process(CLK)
    begin
@@ -193,7 +166,7 @@ BEGIN
       -- WRITE TRANSACTION
      S_AXI_AWADDR <= X"FA000001";
      S_AXI_AWVALID <= '1';
-     S_AXI_WDATA <= X"aabb02cc"; --WRITE opcode: 0000 0010
+     S_AXI_WDATA <= X"aabb02cc";
      S_AXI_WVALID <= '1';
      wait for 2*CLK_period;
      S_AXI_AWADDR <= X"00000000"; 

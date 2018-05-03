@@ -1,12 +1,3 @@
-----------------------------------------------------------------------------------
--- Company:     BME
--- Engineer:    Rausch Marcell  Sági Tamás
--- 
--- Create Date: 10.04.2018 21:53:46
--- Design Name: spi
--- Module Name: timer - behavioral
-----------------------------------------------------------------------------------
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;

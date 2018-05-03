@@ -118,7 +118,7 @@
     </FileSet>
     <FileSet Name="sim_1" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/sim_1">
       <Filter Type="Srcs"/>
-      <File Path="$PPRDIR/../../../Desktop/eeprom/25AA010A.v">
+      <File Path="$PSRCDIR/sources_1/imports/SRC/25AA010A.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -150,6 +150,7 @@
       </Config>
     </FileSet>
     <FileSet Name="sim_2" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/sim_2">
+      <Filter Type="Srcs"/>
       <File Path="$PSRCDIR/sim_2/new/MemoryRW.v">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>

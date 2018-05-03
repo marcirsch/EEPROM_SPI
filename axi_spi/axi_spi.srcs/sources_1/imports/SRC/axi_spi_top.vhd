@@ -1,22 +1,4 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    19:23:38 05/07/2017 
--- Design Name: 
--- Module Name:    axi_spi_top - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
---
--- Dependencies: 
---
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
---
-----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 

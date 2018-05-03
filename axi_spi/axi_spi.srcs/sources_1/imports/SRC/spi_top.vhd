@@ -1,12 +1,3 @@
-----------------------------------------------------------------------------------
--- Company:     BME
--- Engineer:    Cseh P�ter(DM5HMB), Gergely D�niel(T5OCI8), Varga �kos(BOA0LG)
--- 
--- Create Date: 11.04.2017 21:53:46
--- Design Name: spi
--- Module Name: spi_top - behavioral
-----------------------------------------------------------------------------------
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
