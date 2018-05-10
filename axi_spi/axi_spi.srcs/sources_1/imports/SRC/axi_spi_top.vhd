@@ -14,7 +14,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity axi_spi_top is
 generic
 (
-	SPI_DATA_WIDTH : integer := 8 ;
+	SPI_DATA_WIDTH : integer := 24 ;
 	SPI_CLK_DIV : integer := 4
 	);
 

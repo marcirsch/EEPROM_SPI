@@ -183,7 +183,7 @@ module M25AA010A (SI, SO, SCK, CS_N, WP_N, HOLD_N, RESET);
          tHV  = 30;                                     // HOLD_N high to output valid
          tDIS = 40;                                     // CS_N high to output disable
       `else
-         tWC  = 5000000;                                // memory write cycle time
+         tWC  = 5;                                // memory write cycle time
          tV   = 50;                                     // output valid from SCK low
          tHZ  = 30;                                     // HOLD_N low to output high-Z
          tHV  = 30;                                     // HOLD_N high to output valid
@@ -301,8 +301,8 @@ module M25AA010A (SI, SO, SCK, CS_N, WP_N, HOLD_N, RESET);
 
    assign RstWriteEnable = RESET | (WP_N == 0);
 
-   assign SetWriteEnable = (BitCounter == 8) & InstructionWREN & !WriteActive;
-   assign ClrWriteEnable = (BitCounter == 8) & InstructionWRDI & !WriteActive;
+   assign SetWriteEnable = (BitCounter == 24) & InstructionWREN & !WriteActive;
+   assign ClrWriteEnable = (BitCounter == 24) & InstructionWRDI & !WriteActive;
 
 // -------------------------------------------------------------------------------------------------------
 //      1.09:  Write Cycle Processor
@@ -508,7 +508,7 @@ module M25AA010A (SI, SO, SCK, CS_N, WP_N, HOLD_N, RESET);
 // **   TIMING CHECKS                                                                                   **
 // *******************************************************************************************************
 
-   wire TimingCheckEnable = (RESET == 0) & (CS_N == 0);
+   wire TimingCheckEnable = 0;//(RESET == 0) & (CS_N == 0);
 
    specify
       `ifdef VCC_1_8V_TO_2_5V
@@ -554,17 +554,17 @@ module M25AA010A (SI, SO, SCK, CS_N, WP_N, HOLD_N, RESET);
             tCLE = 50;                                  // Clock enable time
       `else
          specparam
-            tHI  =  50,                                 // Clock high time
-            tLO  =  50,                                 // Clock low time
-            tSU  =  10,                                 // Data setup time
-            tHD  =  20,                                 // Data hold time
-            tHS  =  20,                                 // HOLD_N setup time
-            tHH  =  20,                                 // HOLD_N hold time
-            tCSD =  50,                                 // CS_N disable time
-            tCSS =  50,                                 // CS_N setup time
-            tCSH = 100,                                 // CS_N hold time
-            tCLD = 50,                                  // Clock delay time
-            tCLE = 50;                                  // Clock enable time
+            tHI  =  1,                                 // Clock high time
+            tLO  =  1,                                 // Clock low time
+            tSU  =  1,                                 // Data setup time
+            tHD  =  1,                                 // Data hold time
+            tHS  =  1,                                 // HOLD_N setup time
+            tHH  =  1,                                 // HOLD_N hold time
+            tCSD =  1,                                 // CS_N disable time
+            tCSS =  1,                                 // CS_N setup time
+            tCSH = 1,                                 // CS_N hold time
+            tCLD = 1,                                  // Clock delay time
+            tCLE = 1;                                  // Clock enable time
       `endif
       `endif
       `endif

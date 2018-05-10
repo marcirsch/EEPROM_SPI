@@ -87,7 +87,7 @@ ARCHITECTURE behavior OF axi_spi_test IS
    signal S_AXI_RVALID : std_logic;
    signal S_AXI_BRESP : std_logic_vector(1 downto 0);
    signal S_AXI_BVALID : std_logic;
-   signal SPI_MOSI : std_logic;
+   signal S_SPI_MOSI : std_logic;
    signal SPI_SS : std_logic;
    signal SPI_SCK : std_logic;
    
@@ -119,12 +119,12 @@ BEGIN
           S_AXI_BVALID => S_AXI_BVALID,
           S_AXI_BREADY => S_AXI_BREADY,
           SPI_MISO => SPI_MISO,
-          SPI_MOSI => SPI_MOSI,
+          SPI_MOSI => S_SPI_MOSI,
           SPI_SS => SPI_SS,
           SPI_SCK => SPI_SCK
         );
         
-    eeprom: M25AA010A port map(SPI_MOSI ,SPI_SCK,SPI_SS ,S_WP_N ,S_HOLD_N,RST ,SPI_MISO);
+    eeprom: M25AA010A port map(S_SPI_MOSI ,SPI_SCK,SPI_SS ,S_WP_N ,S_HOLD_N,RST ,SPI_MISO);
     
    -- Clock process definitions
    CLK_process :process
@@ -134,13 +134,6 @@ BEGIN
 		CLK <= '1';
 		wait for CLK_period/2;
    end process;
-   
---   proc_miso : process(SPI_SCK)
---   begin
---        if(rising_edge(SPI_SCK)) then
---            SPI_MISO <= not(SPI_MISO);
---        end if;
---   end process proc_miso;
    
    proc_axi_r_ready : process(CLK)
    begin
@@ -159,57 +152,213 @@ BEGIN
    begin		
       -- hold reset state for 100 ns.
       wait for 100 ns;	
+      RST <= '1';
+      wait for 100 ns;
+      RST <= '0';
+      wait for 100 ns;
+      
 
       wait for CLK_period*2;
-
-      -- insert stimulus here 
-      -- WRITE TRANSACTION
+      
+      --write enable
+       S_AXI_AWADDR <= X"FA000001";
+       S_AXI_AWVALID <= '1';
+       S_AXI_WDATA <= X"00060000"; --write wren
+       S_AXI_WVALID <= '1';
+       wait for 2*CLK_period; -- clear axi bus
+       S_AXI_AWADDR <= X"00000000"; 
+       S_AXI_WDATA <= X"00000000";
+       S_AXI_AWVALID <= '0'; 
+         S_AXI_WVALID <= '0'; 
+       wait for 2*CLK_period;
+       
+       wait for 15us;
+      
+--write enable
      S_AXI_AWADDR <= X"FA000001";
      S_AXI_AWVALID <= '1';
-     S_AXI_WDATA <= X"aabb02cc";
+     S_AXI_WDATA <= X"0002005A"; --write write request to eeprom
      S_AXI_WVALID <= '1';
-     wait for 2*CLK_period;
+     wait for 2*CLK_period; -- clear axi bus
      S_AXI_AWADDR <= X"00000000"; 
      S_AXI_WDATA <= X"00000000";
      S_AXI_AWVALID <= '0'; 
        S_AXI_WVALID <= '0'; 
      wait for 2*CLK_period;
      
-     -- READ TRANSACTION
-     S_AXI_ARADDR <= X"AA400300"; --READ opcode: 0000 0011
-     S_AXI_ARVALID <= '1';
-     wait for 2*CLK_period;
-     S_AXI_ARADDR <= X"00000000"; 
-     S_AXI_ARVALID <= '0';
-     wait for 2*CLK_period;
-  
-    -- WRITE + READ TRANSACTION
-     S_AXI_AWADDR <= X"30000001";
+     wait for 15us;
+     
+     
+      S_AXI_AWADDR <= X"FA000001";
      S_AXI_AWVALID <= '1';
-     S_AXI_WDATA <= X"aabb02cc"; --WRITE opcode: 0000 0010
+     S_AXI_WDATA <= X"00030000"; --write read request to eeprom
      S_AXI_WVALID <= '1';
-     
-     S_AXI_ARADDR <= X"03400000"; --READ opcode: 0000 0011
-     S_AXI_ARVALID <= '1';
-     wait for 2*CLK_period;
+     wait for 2*CLK_period; -- clear axi bus
      S_AXI_AWADDR <= X"00000000"; 
      S_AXI_WDATA <= X"00000000";
      S_AXI_AWVALID <= '0'; 
        S_AXI_WVALID <= '0'; 
+     wait for 2*CLK_period;
      
-     S_AXI_ARADDR <= X"00000000"; 
-     S_AXI_ARVALID <= '0';
+     wait for 105us;
+     
+    S_AXI_AWADDR <= X"FA000001";
+    S_AXI_AWVALID <= '1';
+    S_AXI_WDATA <= X"00000000"; --write read request to eeprom
+    S_AXI_WVALID <= '1';
+    wait for 2*CLK_period; -- clear axi bus
+    S_AXI_AWADDR <= X"00000000"; 
+    S_AXI_WDATA <= X"00000000";
+    S_AXI_AWVALID <= '0'; 
+      S_AXI_WVALID <= '0'; 
+    wait for 2*CLK_period;
+    
+    wait for 12us;
+     
+     
+     
+     
+     
+     
+     
+     
+     
+--     wait for 100us;
+      
+----write to eeprom
+--      -- WRITE TRANSACTION
+--     S_AXI_AWADDR <= X"FA000001";
+--     S_AXI_AWVALID <= '1';
+--     S_AXI_WDATA <= X"00000002"; --write write request to eeprom
+--     S_AXI_WVALID <= '1';
+--     wait for 2*CLK_period; -- clear axi bus
+--     S_AXI_AWADDR <= X"00000000"; 
+--     S_AXI_WDATA <= X"00000000";
+--     S_AXI_AWVALID <= '0'; 
+--       S_AXI_WVALID <= '0'; 
+--     wait for 2*CLK_period;
+     
+--     wait for 12us;
+       
+--     S_AXI_AWADDR <= X"FA000001";
+--     S_AXI_AWVALID <= '1';
+--     S_AXI_WDATA <= X"00000010"; --write data address 
+--     S_AXI_WVALID <= '1';
+--     wait for 2*CLK_period; -- clear axi bus
+--     S_AXI_AWADDR <= X"00000000"; 
+--     S_AXI_WDATA <= X"00000000";
+--     S_AXI_AWVALID <= '0'; 
+--     S_AXI_WVALID <= '0'; 
+--     wait for 2*CLK_period;
+     
+     
+--     wait for 12us;
+       
+--     S_AXI_AWADDR <= X"FA000001";
+--     S_AXI_AWVALID <= '1';
+--     S_AXI_WDATA <= X"0000005A"; --write data 
+--     S_AXI_WVALID <= '1';
+--     wait for 2*CLK_period; -- clear axi bus
+--     S_AXI_AWADDR <= X"00000000"; 
+--     S_AXI_WDATA <= X"00000000";
+--     S_AXI_AWVALID <= '0'; 
+--     S_AXI_WVALID <= '0'; 
+--     wait for 2*CLK_period;
+     
+     
+--     wait for 30us;
+     
+     
+----read back data
+      
 
-     wait for 2*CLK_period;
+--     S_AXI_AWADDR <= X"FA000001";
+--     S_AXI_AWVALID <= '1';
+--     S_AXI_WDATA <= X"00000003"; --write read request to eeprom
+--     S_AXI_WVALID <= '1';
+--     wait for 2*CLK_period; -- clear axi bus
+--     S_AXI_AWADDR <= X"00000000"; 
+--     S_AXI_WDATA <= X"00000000";
+--     S_AXI_AWVALID <= '0'; 
+--       S_AXI_WVALID <= '0'; 
+--     wait for 2*CLK_period;
      
-     wait for 200*CLK_period;
-    -- READ TRANSACTION
-     S_AXI_ARADDR <= X"FA400300"; --READ opcode: 0000 0011
-     S_AXI_ARVALID <= '1';
-     wait for 2*CLK_period;
-     S_AXI_ARADDR <= X"00000000"; 
-     S_AXI_ARVALID <= '0';
-     wait for 2*CLK_period;
+--     wait for 12us;
+     
+--     -- READ TRANSACTION
+--     S_AXI_ARADDR <= X"AA400300"; -- masik periferia olvasas szimulalasa
+--     S_AXI_ARVALID <= '1';
+--     wait for 2*CLK_period;
+--     S_AXI_ARADDR <= X"00000000"; 
+--     S_AXI_ARVALID <= '0';
+--     wait for 2*CLK_period;
+  
+--     S_AXI_AWADDR <= X"FA000001";
+--     S_AXI_AWVALID <= '1';
+--     S_AXI_WDATA <= X"00000010"; --write data to eeprom
+--     S_AXI_WVALID <= '1';
+--     wait for 2*CLK_period; -- clear axi bus
+--     S_AXI_AWADDR <= X"00000000"; 
+--     S_AXI_WDATA <= X"00000000";
+--     S_AXI_AWVALID <= '0'; 
+--     S_AXI_WVALID <= '0'; 
+--     wait for 2*CLK_period;
+     
+     
+--      wait for 5us;
+     
+--          -- READ TRANSACTION
+--     S_AXI_ARADDR <= X"AA400300"; -- masik periferia olvasas szimulalasa
+--     S_AXI_ARVALID <= '1';
+--     wait for 2*CLK_period;
+--     S_AXI_ARADDR <= X"00000000"; 
+--     S_AXI_ARVALID <= '0';
+--     wait for 2*CLK_period;
+  
+--     S_AXI_AWADDR <= X"FA000001";
+--     S_AXI_AWVALID <= '1';
+--     S_AXI_WDATA <= X"00000000"; --write data to eeprom
+--     S_AXI_WVALID <= '1';
+--     wait for 2*CLK_period; -- clear axi bus
+--     S_AXI_AWADDR <= X"00000000"; 
+--     S_AXI_WDATA <= X"00000000";
+--     S_AXI_AWVALID <= '0'; 
+--     S_AXI_WVALID <= '0'; 
+--     wait for 2*CLK_period;
+  
+  
+  
+  
+  
+  
+  
+--    -- WRITE + READ TRANSACTION
+--     S_AXI_AWADDR <= X"30000001";
+--     S_AXI_AWVALID <= '1';
+--     S_AXI_WDATA <= X"aabb02cc"; --WRITE 
+--     S_AXI_WVALID <= '1';
+     
+--     S_AXI_ARADDR <= X"03400000"; --READ 
+--     S_AXI_ARVALID <= '1';
+--     wait for 2*CLK_period;
+--     S_AXI_AWADDR <= X"00000000"; 
+--     S_AXI_WDATA <= X"00000000";
+--     S_AXI_AWVALID <= '0'; 
+--       S_AXI_WVALID <= '0'; 
+     
+--     S_AXI_ARADDR <= X"00000000"; 
+--     S_AXI_ARVALID <= '0';
+
+--     wait for 2*CLK_period;
+     
+--     wait for 200*CLK_period;
+--    -- READ TRANSACTION
+--     S_AXI_ARADDR <= X"FA400300"; --READ
+--     S_AXI_ARVALID <= '1';
+--     wait for 2*CLK_period;
+--     S_AXI_ARADDR <= X"00000000"; 
+--     S_AXI_ARVALID <= '0';
+--     wait for 2*CLK_period;
     
 
       wait;

@@ -1,6 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
+use work.spi_pkg.all;
 
 entity axi is
   generic
@@ -42,8 +43,8 @@ entity axi is
       S_AXI_BREADY : in std_logic;
       
     --SPI
-      spi_send_data : out std_logic_vector(7 downto 0);
-      spi_rec_data : in std_logic_vector(7 downto 0);
+      spi_send_data : out std_logic_vector(SPI_DATA_WIDTH-1 downto 0);
+      spi_rec_data : in std_logic_vector(SPI_DATA_WIDTH-1 downto 0);
       spi_busy : in std_logic;
       spi_valid : in std_logic;
       spi_en : out std_logic
@@ -112,10 +113,7 @@ begin
 end process proc_write_addr;
 
 --WRITE DATA kezelo process--
-    --A "S_AXI_WSTRB" jel jelzi, hogy melyik b�jtok �rv�nyesek a bemeneten, ennek lekezel�s�t nem �rtam bele!!!
-    --Szerintem valami ilyesmi lenne a felt�tel: 
-        --if(S_AXI_WVALID = '1' and (S_AXI_WSTRB = "0111" || S_AXI_WSTRB = "1111") then
-    --Teh�t ha van �rv�nyes adat, �s annak az als� h�rom b�jtja �rv�nyes, mert nek�nk csak 24 bit kell (nyilv�n nem ez a legeleg�nsabb megold�s)
+
 proc_write_data : process (S_AXI_ACLK)
 begin
     if(rising_edge(S_AXI_ACLK)) then
@@ -196,7 +194,7 @@ begin
        else
             --Adat beolvas�s
             if(spi_valid = '1') then --Ha az SPI-nak van �rv�nyes adata, akkor beolvasom azt, �s elt�rolom, hogy van �rv�nyes adat 
-                r_data <= x"000000" & spi_rec_data; --konkaten�l�s: felso 8 bit '0', az als� 24 bit az adat (itt lehet, hogy �gy k�ne, hogy a felso 24 bit nulla �s az als� 8 az adat, mert �gyis csak ez az �rv�nyes)
+                r_data <= (31 downto SPI_DATA_WIDTH => '0')&spi_rec_data; --konkaten�l�s: felso 8 bit '0', az als� 24 bit az adat (itt lehet, hogy �gy k�ne, hogy a felso 24 bit nulla �s az als� 8 az adat, mert �gyis csak ez az �rv�nyes)
                 r_data_valid <= '1';
             end if;
             
@@ -241,24 +239,17 @@ proc_spi : process (S_AXI_ACLK)
                 --(ha egyszerre van �r�s �s olvas�s akkor valamelyik a domin�l, �n az �r�st v�lasztottam; ez�rt nem jelenik meg a felt�telben, hogy ne legyen �r�s)
             if(w_en = '1' and spi_busy = '0') then
                 --SPI k�ld�si adatvonal
-                spi_send_data <= w_data(15 downto 8); --& w_addr(31 downto 24) & w_data(7 downto 0);
-					 --elso 8 bit: mem�ria parancs -- m�sodik 8 bit: c�m -- harmadik 8 bit: adat
-                    --(Megj.: a "w_data(15 downto 8)" -nak tartalmaznia kell a megfelelo opcode-ot)
-                    
---                --SPI eszk�z
---                spi_dev_sel <=  w_addr((DEVICES - 1) downto 0);
+                spi_send_data <= w_data(SPI_DATA_WIDTH-1 downto 0);
             end if;
             
             --OLVAS�S--
                 --(ha egyszerre van �r�s �s olvas�s, akkor az �r�s domin�l; ez�rt jelenik meg a felt�telben az, hogy ne legyen �r�s)
             if(r_en = '1' and w_en = '0' and spi_busy = '0') then
-            spi_send_data <= x"01";
+            spi_send_data <= (15 downto 0 => '0')&r_data(31 downto 24);
 --                 spi_send_data <= r_addr(31 downto 24); 
 					  --elso 8 bit: mem�ria parancs -- m�sodik 8 bit: c�m -- harmadik 8 bit: data(ez itt nulla)
                     --(Megj.: a "r_addr(15 downto 8)" -nak tartalmaznia kell a megfelelo opcode-ot, ez el�g ronda �gy :( )
-                    
-                --SPI eszk�z
---                spi_dev_sel <=  r_addr((DEVICES - 1) downto 0);
+      
             end if;
             
        end if;

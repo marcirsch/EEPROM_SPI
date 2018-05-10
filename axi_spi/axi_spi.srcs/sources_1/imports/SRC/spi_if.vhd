@@ -14,8 +14,8 @@ entity spi_if is
         sck_fall : in std_logic;
         valid : in std_logic;
         
-        send_data : in std_logic_vector ((8 - 1) downto 0);
-        rec_data : out std_logic_vector ((8 - 1) downto 0);
+        send_data : in std_logic_vector ((SPI_DATA_WIDTH - 1) downto 0);
+        rec_data : out std_logic_vector ((SPI_DATA_WIDTH - 1) downto 0);
         
         miso : in std_logic;
         mosi : out std_logic
