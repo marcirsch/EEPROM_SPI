@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="31000000001fs"></ZoomEndTime>
-      <Cursor1Time time="71250000fs"></Cursor1Time>
+      <ZoomStartTime time="36914490000fs"></ZoomStartTime>
+      <ZoomEndTime time="37741490001fs"></ZoomEndTime>
+      <Cursor1Time time="22208820000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="138"></ValueColumnWidth>
+      <NameColumnWidth column_width="223"></NameColumnWidth>
+      <ValueColumnWidth column_width="130"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="45" />
+   <WVObjectSize size="22" />
    <wvobject type="logic" fp_name="/axi_spi_test/CLK">
       <obj_property name="ElementShortName">CLK</obj_property>
       <obj_property name="ObjectShortName">CLK</obj_property>
@@ -60,19 +60,6 @@
       <obj_property name="ObjectShortName">S_AXI_WSTRB[3:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/axi_spi_test/S_AXI_ARADDR">
-      <obj_property name="ElementShortName">S_AXI_ARADDR[31:0]</obj_property>
-      <obj_property name="ObjectShortName">S_AXI_ARADDR[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/S_AXI_ARVALID">
-      <obj_property name="ElementShortName">S_AXI_ARVALID</obj_property>
-      <obj_property name="ObjectShortName">S_AXI_ARVALID</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/S_AXI_ARREADY">
-      <obj_property name="ElementShortName">S_AXI_ARREADY</obj_property>
-      <obj_property name="ObjectShortName">S_AXI_ARREADY</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/axi_spi_test/S_AXI_RREADY">
       <obj_property name="ElementShortName">S_AXI_RREADY</obj_property>
       <obj_property name="ObjectShortName">S_AXI_RREADY</obj_property>
@@ -104,109 +91,28 @@
       <obj_property name="ElementShortName">S_AXI_BVALID</obj_property>
       <obj_property name="ObjectShortName">S_AXI_BVALID</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/axi_spi_test/uut/inst_spi_top/send_data">
-      <obj_property name="ElementShortName">send_data[7:0]</obj_property>
-      <obj_property name="ObjectShortName">send_data[7:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/axi_spi_test/uut/inst_spi_top/rec_data">
-      <obj_property name="ElementShortName">rec_data[7:0]</obj_property>
-      <obj_property name="ObjectShortName">rec_data[7:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/uut/inst_spi_top/busy">
-      <obj_property name="ElementShortName">busy</obj_property>
-      <obj_property name="ObjectShortName">busy</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/uut/inst_spi_top/valid">
-      <obj_property name="ElementShortName">valid</obj_property>
-      <obj_property name="ObjectShortName">valid</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/uut/inst_spi_top/en">
-      <obj_property name="ElementShortName">en</obj_property>
-      <obj_property name="ObjectShortName">en</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/SPI_SS">
-      <obj_property name="ElementShortName">SPI_SS</obj_property>
-      <obj_property name="ObjectShortName">SPI_SS</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/SPI_MISO">
-      <obj_property name="ElementShortName">SPI_MISO</obj_property>
-      <obj_property name="ObjectShortName">SPI_MISO</obj_property>
+   <wvobject type="logic" fp_name="/axi_spi_test/SPI_SCK">
+      <obj_property name="ElementShortName">SPI_SCK</obj_property>
+      <obj_property name="ObjectShortName">SPI_SCK</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/axi_spi_test/S_SPI_MOSI">
       <obj_property name="ElementShortName">S_SPI_MOSI</obj_property>
       <obj_property name="ObjectShortName">S_SPI_MOSI</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/SPI_SCK">
-      <obj_property name="ElementShortName">SPI_SCK</obj_property>
-      <obj_property name="ObjectShortName">SPI_SCK</obj_property>
+   <wvobject type="logic" fp_name="/axi_spi_test/SPI_MISO">
+      <obj_property name="ElementShortName">SPI_MISO</obj_property>
+      <obj_property name="ObjectShortName">SPI_MISO</obj_property>
    </wvobject>
-   <wvobject type="other" fp_name="/axi_spi_test/CLK_period">
-      <obj_property name="ElementShortName">CLK_period</obj_property>
-      <obj_property name="ObjectShortName">CLK_period</obj_property>
+   <wvobject type="logic" fp_name="/axi_spi_test/SPI_SS">
+      <obj_property name="ElementShortName">SPI_SS</obj_property>
+      <obj_property name="ObjectShortName">SPI_SS</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/eeprom/SI">
-      <obj_property name="ElementShortName">SI</obj_property>
-      <obj_property name="ObjectShortName">SI</obj_property>
+   <wvobject type="logic" fp_name="/axi_spi_test/S_WP_N">
+      <obj_property name="ElementShortName">S_WP_N</obj_property>
+      <obj_property name="ObjectShortName">S_WP_N</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/eeprom/SCK">
-      <obj_property name="ElementShortName">SCK</obj_property>
-      <obj_property name="ObjectShortName">SCK</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/eeprom/CS_N">
-      <obj_property name="ElementShortName">CS_N</obj_property>
-      <obj_property name="ObjectShortName">CS_N</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/eeprom/WP_N">
-      <obj_property name="ElementShortName">WP_N</obj_property>
-      <obj_property name="ObjectShortName">WP_N</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/eeprom/HOLD_N">
-      <obj_property name="ElementShortName">HOLD_N</obj_property>
-      <obj_property name="ObjectShortName">HOLD_N</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/eeprom/RESET">
-      <obj_property name="ElementShortName">RESET</obj_property>
-      <obj_property name="ObjectShortName">RESET</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/eeprom/SO">
-      <obj_property name="ElementShortName">SO</obj_property>
-      <obj_property name="ObjectShortName">SO</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/axi_spi_test/uut/inst_axi/w_data">
-      <obj_property name="ElementShortName">w_data[31:0]</obj_property>
-      <obj_property name="ObjectShortName">w_data[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/eeprom/InstructionREAD">
-      <obj_property name="ElementShortName">InstructionREAD</obj_property>
-      <obj_property name="ObjectShortName">InstructionREAD</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/axi_spi_test/eeprom/DataShifterI">
-      <obj_property name="ElementShortName">DataShifterI[7:0]</obj_property>
-      <obj_property name="ObjectShortName">DataShifterI[7:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/axi_spi_test/eeprom/DataShifterO">
-      <obj_property name="ElementShortName">DataShifterO[7:0]</obj_property>
-      <obj_property name="ObjectShortName">DataShifterO[7:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/axi_spi_test/eeprom/BitCounter">
-      <obj_property name="ElementShortName">BitCounter[31:0]</obj_property>
-      <obj_property name="ObjectShortName">BitCounter[31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/axi_spi_test/eeprom/InstRegister">
-      <obj_property name="ElementShortName">InstRegister[7:0]</obj_property>
-      <obj_property name="ObjectShortName">InstRegister[7:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/axi_spi_test/eeprom/AddrRegister">
-      <obj_property name="ElementShortName">AddrRegister[7:0]</obj_property>
-      <obj_property name="ObjectShortName">AddrRegister[7:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/eeprom/InstructionWRITE">
-      <obj_property name="ElementShortName">InstructionWRITE</obj_property>
-      <obj_property name="ObjectShortName">InstructionWRITE</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/axi_spi_test/eeprom/InstructionWREN">
-      <obj_property name="ElementShortName">InstructionWREN</obj_property>
-      <obj_property name="ObjectShortName">InstructionWREN</obj_property>
+   <wvobject type="logic" fp_name="/axi_spi_test/S_HOLD_N">
+      <obj_property name="ElementShortName">S_HOLD_N</obj_property>
+      <obj_property name="ObjectShortName">S_HOLD_N</obj_property>
    </wvobject>
 </wave_config>

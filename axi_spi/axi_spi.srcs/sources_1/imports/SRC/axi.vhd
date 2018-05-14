@@ -54,25 +54,23 @@ end axi;
 architecture behavioral of axi is
 
 
-signal read_en : std_logic := '0';  --jelzi, ha lehet olvasni: be�rkezett az �r�si c�m
-
 --Belso WRITE jelek--
-signal w_addr : std_logic_vector(31 downto 0) := (others => '0'); --�r�si c�m t�rol�
-signal w_addr_valid : std_logic := '0'; --Jelzi, ha van �rv�nyes �r�si c�m
+signal w_addr : std_logic_vector(31 downto 0) := (others => '0'); --írási cím
+signal w_addr_valid : std_logic := '0'; --Jelzi, ha van érvényes írási cím
 
-signal w_data : std_logic_vector(31 downto 0) := (others => '0'); --�r�si adat t�rol�
-signal w_data_valid : std_logic := '0'; --Jelzi, ha van �rv�nyes olvas�si c�m
+signal w_data : std_logic_vector(31 downto 0) := (others => '0'); --írási adat
+signal w_data_valid : std_logic := '0'; --Jelzi, ha van érvényes  írási adat
 
-signal w_en : std_logic := '0'; --jelzi, ha lehet �rni: be�rkezett az �r�si c�m �s az adat 
+signal w_en : std_logic := '0'; --jelzi, ha lehet írni
 
 --Belso READ jelek--
-signal r_addr : std_logic_vector(31 downto 0) := (others => '0'); --olvas�si c�m t�rol�
-signal r_addr_valid : std_logic := '0'; --Jelzi, ha van �rv�nyes olvas�si c�m
+signal r_addr : std_logic_vector(31 downto 0) := (others => '0'); --olvasási cím
+signal r_addr_valid : std_logic := '0'; --Jelzi, ha van érvényes olvasási cím
 
-signal r_data : std_logic_vector(31 downto 0) := (others => '0'); --olvas�si adat t�rol�
-signal r_data_valid : std_logic := '0'; --Jelzi, ha van �rv�nyes olvas�si adat 
+signal r_data : std_logic_vector(31 downto 0) := (others => '0'); --olvasási adat
+signal r_data_valid : std_logic := '0'; --Jelzi, ha van érvényes olvasási adat 
 
-signal r_en : std_logic := '0'; --jelzi, ha lehet olvasni: be�rkezett az olvas�si c�m (az olvas�si adatot ebbe nem kell belevenni, azt nem az AXI MASTER-tol kapjuk)
+signal r_en : std_logic := '0'; --jelzi, ha lehet olvasni: 
 
 begin
 
@@ -87,21 +85,19 @@ proc_write_addr : process (S_AXI_ACLK)
 begin
     if(rising_edge(S_AXI_ACLK)) then
         if(S_AXI_ARESETN = '1') then
-            --w_addr <= (others => '0'); --El�g a vez�rlo jelet resetelni
-            w_addr_valid <= '0';
+            w_addr_valid <= '0'; --reset addr valid signal 
         else
-            if(S_AXI_AWVALID = '1' and S_AXI_AWADDR(31 downto 24) = PER_ADDR) then --Ha van �rv�nyes c�m, akkor elveszem a c�met �s jelzem, hogy elvettem
-                --Beolvasom a c�met, van �rv�nyes c�m
+            if(S_AXI_AWVALID = '1' and S_AXI_AWADDR(31 downto 24) = PER_ADDR) then --érvényes cím esetén cím elvétele majd addr_valid jelzés
+                --Beolvasom a címet
                 w_addr <= S_AXI_AWADDR;
                 w_addr_valid <= '1';
                 
-                --Jelzek, hogy elvettem
+                --Jelzek, hogy el lett véve
                 S_AXI_AWREADY <= '1';
             else
             
-                S_AXI_AWREADY <= '0'; --Minden m�s esetben ez '0', csak akkor '1' ha elveszek egy c�met
+                S_AXI_AWREADY <= '0'; --minden más órajelnél 0
                 
-                --null�zni is kell valamikor a "w_addr_valid" jelet ( pl k�vetkezo SPI kommunik�ci�n�l, amikor kiadjuk annak "en" jel�t, ez ut�n m�r nem igaz az, hogy �rv�nyes a c�m�nk)
                 if(w_en = '1' and spi_busy = '0') then
                     w_addr_valid <= '0';
                 end if;
@@ -118,11 +114,10 @@ proc_write_data : process (S_AXI_ACLK)
 begin
     if(rising_edge(S_AXI_ACLK)) then
         if(S_AXI_ARESETN = '1') then
-            --w_data <= (others => '0'); --El�g a vez�rlo jelet resetelni
             w_data_valid <= '0';
         else
-            if(S_AXI_WVALID = '1') then --Ha van �rv�nyes adat, akkor elveszem az adatot �s jelzem, hogy elvettem
-                --Beolvasom az adatot, van �rv�nyes adat
+            if(S_AXI_WVALID = '1') then --érvényes adat esetén adat elvétele majd data_valid jelzés
+                --Beolvasom az érvényes adatot
                 w_data <= S_AXI_WDATA;
                 w_data_valid <= '1';
                 
@@ -130,9 +125,8 @@ begin
                 S_AXI_WREADY <= '1';
             else
             
-                S_AXI_WREADY <= '0'; --Minden m�s esetben ez '0', csak akkor '1' ha elveszek egy adatot
-                
-                --null�zni is kell valamikor a "w_data_valid" jelet ( pl k�vetkezo SPI kommunik�ci�n�l, amikor kiadjuk annak "en" jel�t, ez ut�n m�r nem igaz az, hogy �rv�nyes a c�m�nk)                
+                S_AXI_WREADY <= '0'; --Minden más órajelnél 0
+                               
                 if(w_en = '1' and spi_busy = '0') then
                     w_data_valid <= '0';
                 end if;
@@ -144,7 +138,6 @@ begin
 end process proc_write_data;
 
 --WRITE ENABLE--
-    --Jelzi, ha van �rv�nyes �r�si c�m �s �r�si adat teh�t lehet �rni
 w_en <= w_addr_valid and w_data_valid;
 
 
@@ -159,21 +152,19 @@ proc_read_addr : process(S_AXI_ACLK)
 begin
     if(rising_edge(S_AXI_ACLK)) then
         if(S_AXI_ARESETN = '1') then
-            --r_addr <= (others => '0'); --El�g a vez�rlo jelet resetelni
             r_addr_valid <= '0';
         else
-            if(S_AXI_ARVALID = '1' and S_AXI_ARADDR(31 downto 24) = PER_ADDR) then --Ha van �rv�nyes c�m, akkor elveszem a c�met �s jelzem, hogy elvettem
-                --Beolvasom a c�met, �s van �rv�nyes c�m
+            if(S_AXI_ARVALID = '1' and S_AXI_ARADDR(31 downto 24) = PER_ADDR) then --érvényes cím esetén cím elvétele majd data_valid jelzés
+                --cím beolvasása
                 r_addr <= S_AXI_ARADDR;
                 r_addr_valid <= '1';
                 
-                --Jelzek, hogy elvettem a c�met
+                --Jelzek, hogy elvettem a címet
                 S_AXI_ARREADY <= '1';
             else
             
-                S_AXI_ARREADY <= '0'; --Minden m�s esetben ez '0', csak akkor '1' ha elveszek egy c�met
+                S_AXI_ARREADY <= '0'; --Minden más órajelnél 0
                 
-                --null�zni is kell valamikor a "r_addr_valid" jelet ( pl k�vetkezo SPI kommunik�ci�n�l, amikor kiadjuk annak "en" jel�t, ez ut�n m�r nem igaz az, hogy �rv�nyes a c�m�nk)
                 if(r_en = '1' and w_en = '0' and spi_busy = '0') then
                     r_addr_valid <= '0';
                 end if;
@@ -184,28 +175,27 @@ begin
 end process proc_read_addr;
 
 --READ DATA kezelo process--
-    --A "S_AXI_RRESP" jel jelzi, ha az �tvitel siker�lt-e. Ezt �gy k�ne meghajtani, hogyha olvas�s volt az elozo kommunik�ci� akkor sikeres, ha �r�s, akkor nem, hiszen ekkor is olvas az SPI csak nem arr�l a c�mrol amit a MASTER v�r
+
 proc_read_data : process(S_AXI_ACLK)
 begin
    if(rising_edge(S_AXI_ACLK)) then
        if(S_AXI_ARESETN = '1') then
-            --r_data <= (others => '0'); --El�g a vez�rlo jelet resetelni
             r_data_valid <= '0';
        else
             --Adat beolvas�s
-            if(spi_valid = '1') then --Ha az SPI-nak van �rv�nyes adata, akkor beolvasom azt, �s elt�rolom, hogy van �rv�nyes adat 
-                r_data <= (31 downto SPI_DATA_WIDTH => '0')&spi_rec_data; --konkaten�l�s: felso 8 bit '0', az als� 24 bit az adat (itt lehet, hogy �gy k�ne, hogy a felso 24 bit nulla �s az als� 8 az adat, mert �gyis csak ez az �rv�nyes)
+            if(spi_valid = '1') then --érvényes adat esetén adat elvétele majd data_valid jelzés
+                r_data <= (31 downto SPI_DATA_WIDTH => '0')&spi_rec_data; --3*8bit írás spi-ra [jelzés,cím,adat]
                 r_data_valid <= '1';
             end if;
             
-            --Adat kiad�sa MASTER-nek
-            if(r_data_valid = '1') then --Itt igaz�b�l bele k�ne venni, hogy ha az "spi_valid" '1' akkor is kiadjuk a valid jelet, csak akkor nem az "r_data" lenne az adat, hanem a "x"00" & spi_rec_data". Ez egy �rajel k�s�st jelent
+            --Adat kiadása MASTER-nek
+            if(r_data_valid = '1') then
                S_AXI_RDATA <= r_data; 
                S_AXI_RVALID <= '1';
             end if;
             
-            --Visszaveszem az �rv�nyes jelet
-            if(S_AXI_RREADY = '1' and spi_valid = '0') then --Ha a MASTER elvette az adatot �s az spi-on nem �rkezett �j adat, akkor m�r nem �rv�nyes az "r_data". (Megj.: Az "spi_valid = '0'" n�lk�l szembehajt�s lehetne a buszon)
+            --Érvényes jelzés törlése
+            if(S_AXI_RREADY = '1' and spi_valid = '0') then 
                 r_data_valid <= '0';
                 S_AXI_RVALID <= '0';
             end if;
@@ -214,13 +204,12 @@ begin
 end process proc_read_data;
 
 --READ ENABLE--
-    --Ha van olvas�si c�m, akkor lehet olvasni
+    --Ha van olvasái cím, akkor lehet olvasni
 r_en <= r_addr_valid;
 
 ----SPI----
 
---SPI--VEZ�RLO
-    --A c�meket �gy kezelem hogy a felso 16 bitet haszn�lom a "spi_send_data"-ban mint c�met, az als� 16 az SPI eszk�zv�laszt�nak haszn�lhat�(ez a bitsz�m v�ltoztathat� a "DEVICES" �ltal) 
+--SPI--VEZÉRLO
 proc_spi : process (S_AXI_ACLK)
     begin
    if(rising_edge(S_AXI_ACLK)) then
@@ -228,27 +217,22 @@ proc_spi : process (S_AXI_ACLK)
             spi_en <= '0';
        else
        
-            --SPI enged�lyez�s--
-            if((w_en = '1' or r_en = '1') and spi_busy = '0') then --ha lehet �rni vagy olvasni �s nem foglalt az SPI, akkor jelezz�k az SPI-nak a kommunik�ci�t, ez egy �rajelig tart� pulzus
+            --SPI engedélyezés--
+            if((w_en = '1' or r_en = '1') and spi_busy = '0') then --spi engedélyezése írás vagy olvasás esetén
                 spi_en <= '1';
             else
                 spi_en <= '0';
             end if;
             
-            --�R�S--
-                --(ha egyszerre van �r�s �s olvas�s akkor valamelyik a domin�l, �n az �r�st v�lasztottam; ez�rt nem jelenik meg a felt�telben, hogy ne legyen �r�s)
+            --ÍRÁS
             if(w_en = '1' and spi_busy = '0') then
                 --SPI k�ld�si adatvonal
                 spi_send_data <= w_data(SPI_DATA_WIDTH-1 downto 0);
             end if;
             
-            --OLVAS�S--
-                --(ha egyszerre van �r�s �s olvas�s, akkor az �r�s domin�l; ez�rt jelenik meg a felt�telben az, hogy ne legyen �r�s)
+            --OLVASáS--
             if(r_en = '1' and w_en = '0' and spi_busy = '0') then
-            spi_send_data <= (15 downto 0 => '0')&r_data(31 downto 24);
---                 spi_send_data <= r_addr(31 downto 24); 
-					  --elso 8 bit: mem�ria parancs -- m�sodik 8 bit: c�m -- harmadik 8 bit: data(ez itt nulla)
-                    --(Megj.: a "r_addr(15 downto 8)" -nak tartalmaznia kell a megfelelo opcode-ot, ez el�g ronda �gy :( )
+                spi_send_data <= (15 downto 0 => '0')&r_data(31 downto 24);
       
             end if;
             

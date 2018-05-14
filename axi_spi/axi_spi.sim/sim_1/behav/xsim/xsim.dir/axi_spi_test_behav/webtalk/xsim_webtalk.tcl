@@ -1,6 +1,6 @@
 webtalk_init -webtalk_dir /home/marcell/vivado/RendszerArch/axi_spi/axi_spi.sim/sim_1/behav/xsim/xsim.dir/axi_spi_test_behav/webtalk/
 webtalk_register_client -client project
-webtalk_add_data -client project -key date_generated -value "Thu May 10 20:14:17 2018" -context "software_version_and_target_device"
+webtalk_add_data -client project -key date_generated -value "Mon May 14 15:18:01 2018" -context "software_version_and_target_device"
 webtalk_add_data -client project -key product_version -value "XSIM v2017.4 (64-bit)" -context "software_version_and_target_device"
 webtalk_add_data -client project -key build_version -value "2086221" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_platform -value "LIN64" -context "software_version_and_target_device"
@@ -14,11 +14,11 @@ webtalk_add_data -client project -key target_package -value "not_applicable" -co
 webtalk_add_data -client project -key target_speed -value "not_applicable" -context "software_version_and_target_device"
 webtalk_add_data -client project -key random_id -value "984d8259-aa2b-4e43-9d78-d70b82c47dd9" -context "software_version_and_target_device"
 webtalk_add_data -client project -key project_id -value "efc2c99016e441bcb2902ce942b994a2" -context "software_version_and_target_device"
-webtalk_add_data -client project -key project_iteration -value "129" -context "software_version_and_target_device"
+webtalk_add_data -client project -key project_iteration -value "139" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_name -value "Ubuntu" -context "user_environment"
 webtalk_add_data -client project -key os_release -value "Ubuntu 16.04.4 LTS" -context "user_environment"
 webtalk_add_data -client project -key cpu_name -value "Intel(R) Core(TM) i7-4610M CPU @ 3.00GHz" -context "user_environment"
-webtalk_add_data -client project -key cpu_speed -value "3199.584 MHz" -context "user_environment"
+webtalk_add_data -client project -key cpu_speed -value "3626.586 MHz" -context "user_environment"
 webtalk_add_data -client project -key total_processors -value "1" -context "user_environment"
 webtalk_add_data -client project -key system_ram -value "16.000 GB" -context "user_environment"
 webtalk_register_client -client xsim
@@ -37,6 +37,6 @@ webtalk_add_data -client xsim -key Total_Processes -value "126" -context "xsim\\
 webtalk_add_data -client xsim -key Total_Instances -value "14" -context "xsim\\usage"
 webtalk_add_data -client xsim -key Xilinx_HDL_Libraries_Used -value "secureip unimacro_ver unisims_ver " -context "xsim\\usage"
 webtalk_add_data -client xsim -key Compiler_Time -value "0.88_sec" -context "xsim\\usage"
-webtalk_add_data -client xsim -key Compiler_Memory -value "213184_KB" -context "xsim\\usage"
-webtalk_transmit -clientid 917378794 -regid "" -xml /home/marcell/vivado/RendszerArch/axi_spi/axi_spi.sim/sim_1/behav/xsim/xsim.dir/axi_spi_test_behav/webtalk/usage_statistics_ext_xsim.xml -html /home/marcell/vivado/RendszerArch/axi_spi/axi_spi.sim/sim_1/behav/xsim/xsim.dir/axi_spi_test_behav/webtalk/usage_statistics_ext_xsim.html -wdm /home/marcell/vivado/RendszerArch/axi_spi/axi_spi.sim/sim_1/behav/xsim/xsim.dir/axi_spi_test_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
+webtalk_add_data -client xsim -key Compiler_Memory -value "213188_KB" -context "xsim\\usage"
+webtalk_transmit -clientid 1774891431 -regid "" -xml /home/marcell/vivado/RendszerArch/axi_spi/axi_spi.sim/sim_1/behav/xsim/xsim.dir/axi_spi_test_behav/webtalk/usage_statistics_ext_xsim.xml -html /home/marcell/vivado/RendszerArch/axi_spi/axi_spi.sim/sim_1/behav/xsim/xsim.dir/axi_spi_test_behav/webtalk/usage_statistics_ext_xsim.html -wdm /home/marcell/vivado/RendszerArch/axi_spi/axi_spi.sim/sim_1/behav/xsim/xsim.dir/axi_spi_test_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
 webtalk_terminate

@@ -53,12 +53,12 @@ begin
                     when shift =>
                     
                         --SEND--
-                        if(sck_fall = '1') then --AT25010B EEPROM is sampling the mosi at sck rising edge -> shifting mosi out at falling edge to keep the setup time 
+                        if(sck_fall = '1') then -- write shift output data register before sck fall
                             mosi <= shift_reg(SPI_DATA_WIDTH - 1);
                         end if;
                         
                         --RECEIVE--
-                        if(sck_rise = '1') then --received data is valid on the rising edge of the sck    
+                        if(sck_rise = '1') then --received data is valid on the rising edge of sck  
                             shift_reg <= shift_reg((SPI_DATA_WIDTH - 2) downto 0) & miso;
                         end if;
                         
